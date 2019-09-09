@@ -1,0 +1,22 @@
+dubbo架构：
+    1.创建duboo的子工程
+        dubbo-consumer:消费者模块
+        dubbo-provider:生产者模块
+        dubbo-web：web应用的基础模块
+    2.dubbo-consumer内创建子工程：
+        dubbo-consumer-8081:端口号为8081的消费者
+    3.dubbo-provider内创建子工程：
+        dubbo-provider-8091:端口号为8091的生产者
+        dubbo-provider-8090：端口号为8090的生产者
+    4.web工程下创建子项目，设置依赖关系：
+        mapper-->model
+        service--->mapper
+        api---->model
+    5.再web项目中编写业务逻辑，数据持久层等，
+    再生产者中，直接导入service层的依赖，然后配置该端口的配置文件，
+    生产者可以启动多个，需要配置不同的端口号以及dubbo通信端口号
+    消费者中只处理controller层，如果需要处理业务逻辑，就通过zookeeper调用生产者，因此再消费者层中只需要引入service的接口就可以了
+    dubbo负载均衡：
+    @Reference(loadbalance="roundribbon")轮询
+    @Reference(loadbalance="ramdon")随机
+    @Reference(loadbalance="leastactive")活跃度最低的
